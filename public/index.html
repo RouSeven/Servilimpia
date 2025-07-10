@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servilimpia Morelia</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body> 
+
+    <div class="container">
+        <header>
+            <div class="menu-icon">☰</div>
+            <img src="recycling_logo.webp" alt="Logo" class="logo" width="80px">
+            <h1> Servilimpia  Morelia </h1>
+        </header>
+        <div class="form-section">
+            <div class="input-group">
+                <label for="num">Num:</label>
+                <input type="text" id="num" inputmode="numeric">
+            </div>
+        
+            <div class="input-group">
+                <label for="chofer">Chofer:</label>
+                <input type="text" id="chofer">
+            </div>
+        
+            <div class="input-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha">
+            </div>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Materiales</th>
+                    <th>$</th>
+                    <th>Kilo</th>
+                    <th>T-kILO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>PET</td>
+                    <td><input type="text" class="price" value=" " inputmode="numeric"></td>
+                    <td><input type="text" class="kilograms" inputmode="numeric" value=""></td>
+                    <td><input type="text" class="total-price" value=""></td>
+                </tr>
+                <tr>
+                    <td>VIDRIO</td>
+                    <td><input type="text" class="price" value=" " inputmode="numeric"></td>
+                    <td><input type="text" class="kilograms" inputmode="numeric"></td>
+                    <td><input type="text" class="total-price"></td>
+                </tr>
+                <tr>
+                    <td>PAPEL</td>
+                    <td><input type="text" class="price" inputmode="numeric"></td>
+                    <td><input type="text" class="kilograms" inputmode="numeric"></td>
+                    <td><input type="text" class="total-price"></td>
+                </tr>
+                <tr>
+                    <td>CHATARRA</td>
+                    <td><input type="text" class="price" inputmode="numeric"></td>
+                    <td><input type="text" class="kilograms" inputmode="numeric"></td>
+                    <td><input type="text" class="total-price"></td>
+                </tr>
+                <tr>
+                    <td>CARTON</td>
+                    <td><input type="text" class="price" inputmode="numeric"></td>
+                    <td><input type="text" class="kilograms" inputmode="numeric"></td>
+                    <td><input type="text" class="total-price"></td>
+                </tr>
+                <tr>
+                    <td>HDP</td>
+                    <td><input type="text" class="price" inputmode="numeric"></td>
+                    <td><input type="text" class="kilograms" inputmode="numeric"></td>
+                    <td><input type="text" class="total-price"></td>
+                </tr>
+                <tr>
+                    <td>POLIESTIRENO</td>
+                    <td><input type="text" class="price" inputmode="numeric"></td>
+                    <td><input type="text" class="kilograms" inputmode="numeric"></td>
+                    <td><input type="text" class="total-price"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="descrption" placeholder="Varios"></td>
+                    <td><input type="text" class="price" inputmode="numeric"></td>
+                    <td><input type="text" class="kilograms" inputmode="numeric"></td>
+                    <td><input type="text" class="total-price"></td>
+                </tr>
+                <!-- Agrega más filas según sea necesario -->
+            </tbody>
+        </table>
+        
+        <div class="total-section">
+            <label>Total$</label>
+            <input type="text" id="totalCompra">
+        </div>
+
+        <div class="buttons-section">
+            <button id="btnPrint" onclick="window.print()">Imprimir</button>
+            <button id="btnCalculate">Calcular</button>
+        </div>
+
+    </div>
+    <script src="app.js"></script>
+    <script src="scriptC.js"></script>
+
+</body>
+</html>
