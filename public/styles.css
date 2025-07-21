@@ -34,6 +34,10 @@ header {
     cursor: pointer;
 }
 
+.logo {
+    height: 80px;
+}
+
 .form-section {
     display: flex;
     justify-content: space-between;
@@ -54,7 +58,7 @@ header {
 }
 
 .input-group input {
-    width: 100px; /* Ajusta el tamaño para que quepan en una sola línea */
+    width: 100px;
     text-align: center;
 }
 
@@ -94,7 +98,6 @@ th {
     align-items: center;
 }
 
-/* Estilos para los botones */
 .buttons-section {
     display: flex;
     justify-content: space-between;
@@ -129,10 +132,33 @@ button:active {
     }
 }
 
-/* Estilos para la impresión */
+/* Área del ticket de impresión */
+#ticket {
+    width: 58mm;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 10px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    display: none;
+}
+
 @media print {
-    #btn-imprimir,
-    #btn-calcular {
-        display: none;
+    body * {
+        visibility: hidden;
+    }
+
+    #ticket, #ticket * {
+        visibility: visible;
+    }
+
+    #ticket {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .container, button, .buttons-section {
+        display: none !important;
     }
 }
