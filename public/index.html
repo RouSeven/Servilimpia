@@ -1,119 +1,139 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Servilimpia Morelia</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="container">
-    <header>
-      <div class="menu-icon">☰</div>
-      <img src="recycling_logo.webp" alt="Logo" class="logo"  />
-      <h1>Servilimpia Morelia</h1>
-    </header>
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Servilimpia Morelia</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="menu-icon">☰</div>
+        <img src="recycling_logo.webp" alt="Logo" class="logo"  />
+        <h1>Servilimpia Morelia</h1>  
+      </header>
 
-    <div class="form-section">
-      <div class="input-group">
-        <label for="num">Num:</label>
-        <input type="text" id="num" inputmode="numeric" />
+      <div class="form-section">
+        <div class="input-group">
+          <label for="num">Num:</label>
+          <input type="text" id="num" inputmode="numeric" />
+        </div>
+
+        <div class="input-group">
+          <label for="chofer">Chofer:</label>
+          <input type="text" id="chofer" />
+        </div>
+
+        <div class="input-group">
+          <label for="fecha">Fecha:</label>
+          <input type="date" id="fecha" />
+        </div>
       </div>
 
-      <div class="input-group">
-        <label for="chofer">Chofer:</label>
-        <input type="text" id="chofer" />
+      <table>
+        <thead>
+          <tr>
+            <th>Materiales</th>
+            <th>$</th>
+            <th>Kilo</th>
+            <th>T-KILO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PET</td>
+            <td><input type="text" class="price" inputmode="decimal"  data-material="pet"/></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+          <tr>
+            <td>VIDRIO</td>
+            <td><input type="text" class="price" inputmode="decimal"  data-material="vidrio"/></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+          <tr>
+            <td>PAPEL</td>
+            <td><input type="text" class="price" inputmode="decimal" data-material="papel"/></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+          <tr>
+            <td>CHATARRA</td>
+            <td><input type="text" class="price" inputmode="decimal" data-material="chatarra"/></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+          <tr>
+            <td>CARTON</td>
+            <td><input type="text" class="price" inputmode="decimal" data-material="carton"/></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+          <tr>
+            <td>HDP</td>
+            <td><input type="text" class="price" inputmode="decimal"  data-material="hdp"/></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+          <tr>
+            <td>POLIESTIRENO</td>
+            <td><input type="text" class="price" inputmode="decimal"  data-material="poliestireno"/></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+           <tr>
+            <td>ALUMINIO</td>
+            <td><input type="text" class="price" inputmode="decimal"  data-material="aluminio"/></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" class="descrption" placeholder="Varios"  /></td>
+            <td><input type="text" class="price" inputmode="decimal" /></td>
+            <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+            <td><input type="text" class="total-price" inputmode="decimal" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="total-section">
+        <label>SubTotal: </label>
+        <input type="text" id="subtotal" readonly />
       </div>
 
-      <div class="input-group">
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" />
+      <div class="total-section">
+        <label>Descuento:</label>
+        <input type="text" id="descuento" inputmode="decimal" />
       </div>
-    </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Materiales</th>
-          <th>$</th>
-          <th>Kilo</th>
-          <th>T-KILO</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>PET</td>
-          <td><input type="text" class="price" inputmode="decimal" /></td>
-          <td><input type="text" class="kilograms" inputmode="decimal" /></td>
-          <td><input type="text" class="total-price" inputmode="decimal" /></td>
-        </tr>
-        <tr>
-          <td>VIDRIO</td>
-          <td><input type="text" class="price" inputmode="decimal" /></td>
-          <td><input type="text" class="kilograms" inputmode="decimal" /></td>
-          <td><input type="text" class="total-price" inputmode="decimal" /></td>
-        </tr>
-        <tr>
-          <td>PAPEL</td>
-          <td><input type="text" class="price" inputmode="decimal" /></td>
-          <td><input type="text" class="kilograms" inputmode="decimal" /></td>
-          <td><input type="text" class="total-price" inputmode="decimal" /></td>
-        </tr>
-        <tr>
-          <td>CHATARRA</td>
-          <td><input type="text" class="price" inputmode="decimal" /></td>
-          <td><input type="text" class="kilograms" inputmode="decimal" /></td>
-          <td><input type="text" class="total-price" inputmode="decimal" /></td>
-        </tr>
-        <tr>
-          <td>CARTON</td>
-          <td><input type="text" class="price" inputmode="decimal" /></td>
-          <td><input type="text" class="kilograms" inputmode="decimal" /></td>
-          <td><input type="text" class="total-price" inputmode="decimal" /></td>
-        </tr>
-        <tr>
-          <td>HDP</td>
-          <td><input type="text" class="price" inputmode="decimal" /></td>
-          <td><input type="text" class="kilograms" inputmode="decimal" /></td>
-          <td><input type="text" class="total-price" inputmode="decimal" /></td>
-        </tr>
-        <tr>
-          <td>POLIESTIRENO</td>
-          <td><input type="text" class="price" inputmode="decimal" /></td>
-          <td><input type="text" class="kilograms" inputmode="decimal" /></td>
-          <td><input type="text" class="total-price" inputmode="decimal" /></td>
-        </tr>
-        <tr>
-          <td><input type="text" class="descrption" placeholder="Varios" /></td>
-          <td><input type="text" class="price" inputmode="decimal" /></td>
-          <td><input type="text" class="kilograms" inputmode="decimal" /></td>
-          <td><input type="text" class="total-price" inputmode="decimal" /></td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="total-section">
+        <label>Total$</label>
+        <input type="text" id="totalCompra" readonly />
+      </div>
+  
+      
+      <div class="buttons-section">
+        <button id="toggleEditPrices">Guardar precios</button>
+        <button id="btnPrintRawbt">Imprimir con RAWBT</button>
+      </div>
 
-    <div class="total-section">
-      <label>Total$</label>
-      <input type="text" id="totalCompra" readonly />
     </div>
-
-    <div class="buttons-section">
-          <button id="btnCalculate">Calcular</button>
-      <button id="btnPrintRawbt">Imprimir con RAWBT</button>
-    </div>
-  </div>
-<script>
-// ✅ Código para generar texto plano e imprimir con RAWBT
+  <script>
+ // ✅ Código para generar texto plano e imprimir con RAWBT
 function imprimirConRawbt() {
   const num = document.getElementById("num").value;
   const chofer = document.getElementById("chofer").value;
   const fecha = document.getElementById("fecha").value;
   const total = document.getElementById("totalCompra").value;
-let contenido = "";
-  contenido += "SERVILIMPIA MORELIA\n";
+  const subtotal = document.getElementById("subtotal").value;
+  const descuento = document.getElementById("descuento").value;
+
+  let contenido = "";
+  contenido += "♻ SERVILIMPIA MORELIA SECTOR 7 ♻\n";
   contenido += `No: ${num}\nChofer: ${chofer}\nFecha: ${fecha}\n\n`;
   contenido += "Material    $   K  T-K\n";
-  contenido += "------------------------\n";
+  contenido += "♻------------------------♻\n";
 
   const filas = document.querySelectorAll("tbody tr");
   filas.forEach(fila => {
@@ -131,21 +151,26 @@ let contenido = "";
     }
   });
 
-  contenido += "------------------------\n";
-  contenido += `TOTAL: $${total}\nGracias por su visita`;
+  contenido += "♻------------------------♻\n";
+  contenido += `SUBTOTAL: $${subtotal}\n`;
+  contenido += `DESC:     $${descuento}\n`;
+  contenido += `TOTAL:    $${total}\n`;
+  contenido += "QUE TENGAS BUEN DIA";
+
   const encoded = encodeURIComponent(contenido);
   window.location.href = `rawbt:${encoded}`;
 }
 
-// ✅ Enlazar el botón
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("btnPrintRawbt");
-  if (btn) btn.addEventListener("click", imprimirConRawbt);
-});
-</script>
+
+  // ✅ Enlazar el botón
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("btnPrintRawbt");
+    if (btn) btn.addEventListener("click", imprimirConRawbt);
+  });
+  </script>
 
 
 
-  <script src="scriptC.js"></script>
-</body>
-</html>
+    <script src="scriptC.js"></script>
+  </body>
+  </html>

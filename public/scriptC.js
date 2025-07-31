@@ -6,15 +6,39 @@ document.addEventListener("DOMContentLoaded", () => {
         const totalCampo = fila.querySelector(".total-price");
         totalCampo.value = (precio * kilos).toFixed(2);
         calcularTotalCompra();
-    }
+        document.getElementById("descuento").addEventListener("input", calcularTotalCompra);
 
-    function calcularTotalCompra() {
-        let total = 0;
-        document.querySelectorAll(".total-price").forEach(input => {
-            total += parseFloat(input.value) || 0;
-        });
-        document.getElementById("totalCompra").value = total.toFixed(2);
     }
+    
+function evaluarDescuento(descuentoTexto) {
+    try {
+        // Solo permite números, +, -, * y /
+        const resultado = eval(descuentoTexto.replace(/[^0-9+\-*/.]/g, ''));
+        return isNaN(resultado) ? 0 : resultado;
+    } catch {
+        return 0;
+    }
+}
+
+function calcularTotalCompra() {
+    let total = 0;
+    document.querySelectorAll(".total-price").forEach(input => {
+        total += parseFloat(input.value) || 0;
+    });
+
+    const subtotalInput = document.getElementById("subtotal");
+    const descuentoInput = document.getElementById("descuento");
+    const totalCompraInput = document.getElementById("totalCompra");
+
+    const descuento = evaluarDescuento(descuentoInput.value);
+    const subtotal = total.toFixed(2);
+    const totalFinal = (total - descuento).toFixed(2);
+
+    subtotalInput.value = subtotal;
+    totalCompraInput.value = totalFinal;
+}
+
+
 
     function establecerFechaActual() {
         const fechaInput = document.getElementById("fecha");
@@ -41,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     establecerFechaActual();
+    
 
     document.querySelectorAll(".price, .kilograms").forEach(input => {
         input.addEventListener("input", (event) => {
@@ -64,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let contenidoTabla = "|Material  | $  |Kgs| T-K |\n|----------|----|---|------|\n";
 
         filas.forEach(fila => {
-            const mat = fila.querySelector("td:first-child input")?.value || fila.querySelector("td:first-child");
+            const mat = fila.querySelector("td:first-child input")?.value || fila.querySelector("td:first-child")?.innerText;
             const precio = fila.querySelector(".price").value || "0";
             const kilos = fila.querySelector(".kilograms").value || "0";
             const total = fila.querySelector(".total-price").value || "0";
@@ -91,4 +116,42 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("ticket").style.display = "none";
         };
     }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const priceInputs = document.querySelectorAll(".price");
+  const toggleBtn = document.getElementById("toggleEditPrices");
+
+  // Cargar precios del localStorage y bloquear inputs
+  priceInputs.forEach(input => {
+    const material = input.dataset.material;
+    if (material) {
+      const stored = localStorage.getItem(`precio_${material}`);
+      if (stored !== null) {
+        input.value = stored;
+        input.disabled = true;
+        toggleBtn.textContent = "Editar precios";
+      }
+    }
+  });
+
+  // Activar / Desactivar edición
+  toggleBtn.addEventListener("click", () => {
+    const isDisabled = priceInputs[0].disabled;
+
+    if (isDisabled) {
+      // Activar edición
+      priceInputs.forEach(input => input.disabled = false);
+      toggleBtn.textContent = "Guardar precios";
+    } else {
+      // Guardar precios y desactivar
+      priceInputs.forEach(input => {
+        const material = input.dataset.material;
+        if (material) {
+          localStorage.setItem(`precio_${material}`, input.value);
+        }
+        input.disabled = true;
+      });
+      toggleBtn.textContent = "Editar precios";
+    }
+  });
 });
