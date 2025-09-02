@@ -1,37 +1,40 @@
-  <!DOCTYPE html>
-  <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Servilimpia Morelia</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <div class="menu-icon">☰</div>
-        <img src="recycling_logo.webp" alt="Logo" class="logo"  />
-        <h1>Servilimpia Morelia</h1>  
-      </header>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Servilimpia Morelia</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="menu-icon">☰</div>
+      <img src="recycling_logo.webp" alt="Logo" class="logo"  />
+      <h1>Servilimpia Morelia</h1>  
+      <button onclick="location.reload()">🔄</button>
+    </header>
 
-      <div class="form-section">
-        <div class="input-group">
-          <label for="num">Num:</label>
-          <input type="text" id="num" inputmode="numeric" />
-        </div>
-
-        <div class="input-group">
-          <label for="chofer">Chofer:</label>
-          <input type="text" id="chofer" />
-        </div>
-
-        <div class="input-group">
-          <label for="fecha">Fecha:</label>
-          <input type="date" id="fecha" />
-        </div>
+    <div class="form-section">
+      <div class="input-group">
+        <label for="num">Num:</label>
+        <input type="text" id="num" inputmode="numeric" />
       </div>
 
-      <table>
+      <div class="input-group">
+        <label for="chofer">Chofer:</label>
+        <input type="text" id="chofer" />
+      </div>
+
+      <div class="input-group">
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" />
+      </div>
+    </div>
+
+    <!-- ✅ Tabla ahora con contenedor para scroll -->
+    <div id="contenedorTabla">
+      <table id="tablaMateriales">
         <thead>
           <tr>
             <th>Materiales</th>
@@ -89,88 +92,122 @@
             <td><input type="text" class="kilograms" inputmode="decimal" /></td>
             <td><input type="text" class="total-price" inputmode="decimal" /></td>
           </tr>
-          <tr>
-            <td><input type="text" class="descrption" placeholder="Varios"  /></td>
+          <tr id="fila-varios">
+            <td><input type="text" class="descrption" placeholder="Varios" /></td>
             <td><input type="text" class="price" inputmode="decimal" /></td>
             <td><input type="text" class="kilograms" inputmode="decimal" /></td>
             <td><input type="text" class="total-price" inputmode="decimal" /></td>
           </tr>
+          <tr id="fila-boton">
+            <td colspan="4" style="text-align: center;">
+              <button id="btnAgregarFila">➕ Agregar fila</button>
+            </td>
+          </tr>
         </tbody>
       </table>
-      <div class="total-section">
-        <label>SubTotal: </label>
-        <input type="text" id="subtotal" readonly />
-      </div>
-
-      <div class="total-section">
-        <label>Descuento:</label>
-        <input type="text" id="descuento" inputmode="decimal" />
-      </div>
-
-      <div class="total-section">
-        <label>Total$</label>
-        <input type="text" id="totalCompra" readonly />
-      </div>
-  
-      
-      <div class="buttons-section">
-        <button id="toggleEditPrices">Guardar precios</button>
-        <button id="btnPrintRawbt">Imprimir con RAWBT</button>
-      </div>
-
     </div>
+    <!-- ✅ Fin del contenedor con scroll -->
+
+    <div class="total-section">
+      <label>SubTotal: </label>
+      <input type="text" id="subtotal" readonly />
+    </div>
+
+    <div class="total-section">
+      <label>Descuento:</label>
+      <input type="text" id="descuento" inputmode="decimal" />
+    </div>
+
+    <div class="total-section">
+      <label>Total$</label>
+      <input type="text" id="totalCompra" readonly />
+    </div>
+    
+    <div class="buttons-section">
+      <button id="toggleEditPrices">Guardar precios</button>
+      <button id="btnPrintRawbt">Imprimir con RAWBT</button>
+    </div>
+  </div>
+
   <script>
- // ✅ Código para generar texto plano e imprimir con RAWBT
-function imprimirConRawbt() {
-  const num = document.getElementById("num").value;
-  const chofer = document.getElementById("chofer").value;
-  const fecha = document.getElementById("fecha").value;
-  const total = document.getElementById("totalCompra").value;
-  const subtotal = document.getElementById("subtotal").value;
-  const descuento = document.getElementById("descuento").value;
+  // ✅ Código para generar texto plano e imprimir con RAWBT
+  function imprimirConRawbt() {
+    const num = document.getElementById("num").value;
+    const chofer = document.getElementById("chofer").value;
+    const fecha = document.getElementById("fecha").value;
+    const total = document.getElementById("totalCompra").value;
+    const subtotal = document.getElementById("subtotal").value;
+    const descuento = document.getElementById("descuento").value;
 
-  let contenido = "";
-  contenido += "♻ SERVILIMPIA MORELIA SECTOR 7 ♻\n";
-  contenido += `No: ${num}\nChofer: ${chofer}\nFecha: ${fecha}\n\n`;
-  contenido += "Material    $   K  T-K\n";
-  contenido += "♻------------------------♻\n";
+    let contenido = "";
+    contenido += "♻ SERVILIMPIA MORELIA SECTOR 7 ♻\n";
+    contenido += `No: ${num}\nChofer: ${chofer}\nFecha: ${fecha}\n\n`;
+    contenido += "Material    $   K  T-K\n";
+    contenido += "♻------------------------♻\n";
 
-  const filas = document.querySelectorAll("tbody tr");
-  filas.forEach(fila => {
-    const mat = fila.querySelector("td:first-child input")?.value || fila.querySelector("td:first-child")?.innerText;
-    const precio = fila.querySelector(".price").value || "0";
-    const kilos = fila.querySelector(".kilograms").value || "0";
-    const totalFila = fila.querySelector(".total-price").value || "0";
+    const filas = document.querySelectorAll("tbody tr");
+    filas.forEach(fila => {
+      const mat = fila.querySelector("td:first-child input")?.value || fila.querySelector("td:first-child")?.innerText;
+      const precio = fila.querySelector(".price").value || "0";
+      const kilos = fila.querySelector(".kilograms").value || "0";
+      const totalFila = fila.querySelector(".total-price").value || "0";
 
-    if (parseFloat(kilos) > 0 && parseFloat(totalFila) > 0) {
-      const m = mat.padEnd(10, ' ').slice(0, 10);
-      const p = precio.padStart(4, ' ').slice(0, 4);
-      const k = kilos.padStart(3, ' ').slice(0, 3);
-      const t = totalFila.padStart(5, ' ').slice(0, 5);
-      contenido += `${m}${p}${k} ${t}\n`;
-    }
-  });
+      if (parseFloat(kilos) > 0 && parseFloat(totalFila) > 0) {
+        const m = mat.padEnd(10, ' ').slice(0, 10);
+        const p = precio.padStart(4, ' ').slice(0, 4);
+        const k = kilos.padStart(3, ' ').slice(0, 3);
+        const t = totalFila.padStart(5, ' ').slice(0, 5);
+        contenido += `${m}${p}${k} ${t}\n`;
+      }
+    });
 
-  contenido += "♻------------------------♻\n";
-  contenido += `SUBTOTAL: $${subtotal}\n`;
-  contenido += `DESC:     $${descuento}\n`;
-  contenido += `TOTAL:    $${total}\n`;
-  contenido += "QUE TENGAS BUEN DIA";
+    contenido += "♻------------------------♻\n";
+    contenido += `SUBTOTAL: $${subtotal}\n`;
+    contenido += `DESC:     $${descuento}\n`;
+    contenido += `TOTAL:    $${total}\n`;
+    contenido += "QUE TENGAS BUEN DIA";
 
-  const encoded = encodeURIComponent(contenido);
-  window.location.href = `rawbt:${encoded}`;
-}
-
+    const encoded = encodeURIComponent(contenido);
+    window.location.href = `rawbt:${encoded}`;
+  }
 
   // ✅ Enlazar el botón
   document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("btnPrintRawbt");
     if (btn) btn.addEventListener("click", imprimirConRawbt);
   });
+
+  function refrescarSoloPrecios() {
+    const preciosGuardados = JSON.parse(localStorage.getItem("preciosMateriales") || "{}");
+    const filas = document.querySelectorAll("#tablaMateriales tbody tr");
+
+    filas.forEach(fila => {
+      const celdaNombre = fila.querySelector("td:nth-child(1)");
+      const inputPrecio = fila.querySelector("input[type='number']");
+      const inputCantidad = fila.querySelector("td:nth-child(3) input");
+      const celdaTotal = fila.querySelector("td:nth-child(4)");
+
+      if (inputCantidad) inputCantidad.value = "";
+      if (celdaTotal) celdaTotal.textContent = "$0.00";
+
+      if (celdaNombre && inputPrecio) {
+        const nombre = celdaNombre.textContent.trim();
+        if (preciosGuardados[nombre] !== undefined) {
+          inputPrecio.value = preciosGuardados[nombre];
+        } else {
+          inputPrecio.value = "";
+        }
+      }
+    });
+
+    // Limpiar campos de totales y descuento
+    document.getElementById("subtotal").textContent = "$0.00";
+    document.getElementById("totalCompra").textContent = "$0.00";
+    const inputDescuento = document.getElementById("descuento");
+    if (inputDescuento) inputDescuento.value = "";
+  }
   </script>
 
-
-
-    <script src="scriptC.js"></script>
-  </body>
-  </html>
+  <script src="scriptC.js"></script>
+</body>
+</html>

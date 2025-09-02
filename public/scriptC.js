@@ -4,41 +4,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const precio = parseFloat(fila.querySelector(".price").value) || 0;
         const kilos = parseFloat(fila.querySelector(".kilograms").value) || 0;
         const totalCampo = fila.querySelector(".total-price");
-        totalCampo.value = (precio * kilos).toFixed(2);
+        totalCampo.value = Math.round(precio * kilos); // 🔹 Redondear sin decimales
         calcularTotalCompra();
         document.getElementById("descuento").addEventListener("input", calcularTotalCompra);
-
     }
     
-function evaluarDescuento(descuentoTexto) {
-    try {
-        // Solo permite números, +, -, * y /
-        const resultado = eval(descuentoTexto.replace(/[^0-9+\-*/.]/g, ''));
-        return isNaN(resultado) ? 0 : resultado;
-    } catch {
-        return 0;
+    function evaluarDescuento(descuentoTexto) {
+        try {
+            const resultado = eval(descuentoTexto.replace(/[^0-9+\-*/.]/g, ''));
+            return isNaN(resultado) ? 0 : resultado;
+        } catch {
+            return 0;
+        }
     }
-}
 
-function calcularTotalCompra() {
-    let total = 0;
-    document.querySelectorAll(".total-price").forEach(input => {
-        total += parseFloat(input.value) || 0;
-    });
+    function calcularTotalCompra() {
+        let total = 0;
+        document.querySelectorAll(".total-price").forEach(input => {
+            total += parseFloat(input.value) || 0;
+        });
 
-    const subtotalInput = document.getElementById("subtotal");
-    const descuentoInput = document.getElementById("descuento");
-    const totalCompraInput = document.getElementById("totalCompra");
+        const subtotalInput = document.getElementById("subtotal");
+        const descuentoInput = document.getElementById("descuento");
+        const totalCompraInput = document.getElementById("totalCompra");
 
-    const descuento = evaluarDescuento(descuentoInput.value);
-    const subtotal = total.toFixed(2);
-    const totalFinal = (total - descuento).toFixed(2);
+        const descuento = evaluarDescuento(descuentoInput.value);
+        const subtotal = Math.round(total); // 🔹 Entero
+        const totalFinal = Math.round(total - descuento); // 🔹 Entero
 
-    subtotalInput.value = subtotal;
-    totalCompraInput.value = totalFinal;
-}
-
-
+        subtotalInput.value = subtotal;
+        totalCompraInput.value = totalFinal;
+    }
 
     function establecerFechaActual() {
         const fechaInput = document.getElementById("fecha");
@@ -49,14 +45,12 @@ function calcularTotalCompra() {
         fechaInput.value = `${anio}-${mes}-${dia}`;
     }
 
-    // Permitir solo números y punto decimal
     function permitirSoloNumeros(inputSelector) {
         document.querySelectorAll(inputSelector).forEach(input => {
             input.addEventListener("keypress", (e) => {
                 const char = String.fromCharCode(e.which);
                 const esNumero = /\d/.test(char);
                 const esPunto = char === ".";
-
                 if (!esNumero && (!esPunto || input.value.includes("."))) {
                     e.preventDefault();
                 }
@@ -65,7 +59,6 @@ function calcularTotalCompra() {
     }
 
     establecerFechaActual();
-    
 
     document.querySelectorAll(".price, .kilograms").forEach(input => {
         input.addEventListener("input", (event) => {
@@ -77,8 +70,8 @@ function calcularTotalCompra() {
     permitirSoloNumeros(".kilograms");
     permitirSoloNumeros(".total-price");
 
-    document.getElementById("btnCalculate").addEventListener("click", calcularTotalCompra);
-    document.getElementById("btnPrint").addEventListener("click", generarYImprimirTicket);
+    document.getElementById("btnCalculate")?.addEventListener("click", calcularTotalCompra);
+    document.getElementById("btnPrint")?.addEventListener("click", generarYImprimirTicket);
 
     function generarYImprimirTicket() {
         document.getElementById("ticket-num").innerText = document.getElementById("num").value;
@@ -116,12 +109,44 @@ function calcularTotalCompra() {
             document.getElementById("ticket").style.display = "none";
         };
     }
+
+    // ✅ Bloque para agregar filas dinámicas en "Varios"
+    const btnAgregar = document.getElementById("btnAgregarFila");
+    const tablaBody = document.querySelector("tbody");
+    const filaBoton = document.getElementById("fila-boton");
+
+    if (btnAgregar && tablaBody && filaBoton) {
+        btnAgregar.addEventListener("click", () => {
+            const nuevaFila = document.createElement("tr");
+            nuevaFila.innerHTML = `
+              <td><input type="text" class="descrption" placeholder="Varios" /></td>
+              <td><input type="text" class="price" inputmode="decimal" /></td>
+              <td><input type="text" class="kilograms" inputmode="decimal" /></td>
+              <td><input type="text" class="total-price" inputmode="decimal" /></td>
+            `;
+            tablaBody.insertBefore(nuevaFila, filaBoton);
+
+            // Eventos para la nueva fila
+            nuevaFila.querySelectorAll(".price, .kilograms").forEach(input => {
+                input.addEventListener("input", (event) => {
+                    calcularTotalFila(event.target);
+                });
+            });
+
+            permitirSoloNumeros(".price");
+            permitirSoloNumeros(".kilograms");
+            permitirSoloNumeros(".total-price");
+        });
+    }
 });
+
+// ============================
+// Bloque de edición de precios
+// ============================
 document.addEventListener("DOMContentLoaded", () => {
   const priceInputs = document.querySelectorAll(".price");
   const toggleBtn = document.getElementById("toggleEditPrices");
 
-  // Cargar precios del localStorage y bloquear inputs
   priceInputs.forEach(input => {
     const material = input.dataset.material;
     if (material) {
@@ -134,16 +159,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Activar / Desactivar edición
   toggleBtn.addEventListener("click", () => {
     const isDisabled = priceInputs[0].disabled;
-
     if (isDisabled) {
-      // Activar edición
       priceInputs.forEach(input => input.disabled = false);
       toggleBtn.textContent = "Guardar precios";
     } else {
-      // Guardar precios y desactivar
       priceInputs.forEach(input => {
         const material = input.dataset.material;
         if (material) {
@@ -154,4 +175,49 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleBtn.textContent = "Editar precios";
     }
   });
+});
+
+// ============================
+// Funciones extra para refresco
+// ============================
+function refrescarSoloPrecios() {
+    const preciosGuardados = JSON.parse(localStorage.getItem("preciosMateriales") || "{}");
+    const filas = document.querySelectorAll("#tablaMateriales tbody tr");
+
+    filas.forEach(fila => {
+        const celdaNombre = fila.querySelector("td:nth-child(1)");
+        const inputPrecio = fila.querySelector("input[type='number']");
+        const inputCantidad = fila.querySelector("td:nth-child(3) input");
+        const celdaTotal = fila.querySelector("td:nth-child(4)");
+
+        if (inputCantidad) inputCantidad.value = "";
+        if (celdaTotal) celdaTotal.textContent = "$0.00";
+
+        if (celdaNombre && inputPrecio) {
+            const nombre = celdaNombre.textContent.trim();
+            if (preciosGuardados[nombre] !== undefined) {
+                inputPrecio.value = preciosGuardados[nombre];
+            } else {
+                inputPrecio.value = "";
+            }
+        }
+    });
+
+    document.getElementById("subtotal").textContent = "$0.00";
+    document.getElementById("totalCompra").textContent = "$0.00";
+    const inputDescuento = document.getElementById("descuento");
+    if (inputDescuento) inputDescuento.value = "";
+}
+
+window.addEventListener("DOMContentLoaded", function () {
+    const preciosGuardados = JSON.parse(localStorage.getItem("preciosMateriales") || "{}");
+    const filas = document.querySelectorAll("#tablaMateriales tbody tr");
+
+    filas.forEach(fila => {
+        const nombre = fila.querySelector("td:nth-child(1)").textContent.trim();
+        const inputPrecio = fila.querySelector("input[type='number']");
+        if (preciosGuardados[nombre] !== undefined && inputPrecio) {
+            inputPrecio.value = preciosGuardados[nombre];
+        }
+    });
 });
