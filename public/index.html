@@ -130,7 +130,7 @@
   </div>
 
   <script>
-  // ✅ Código para generar texto plano e imprimir con RAWBT
+  // ✅ Nueva versión de impresión RAWBT
   function imprimirConRawbt() {
     const num = document.getElementById("num").value;
     const chofer = document.getElementById("chofer").value;
@@ -142,31 +142,32 @@
     let contenido = "";
     contenido += "♻ SERVILIMPIA MORELIA SECTOR 7 ♻\n";
     contenido += `No: ${num}\nChofer: ${chofer}\nFecha: ${fecha}\n\n`;
-    contenido += "Material    $   K  T-K\n";
-    contenido += "♻------------------------♻\n";
+    contenido += "Material     $   Kg   T-Kg\n";
+    contenido += "----------------------------\n";
 
-    const filas = document.querySelectorAll("tbody tr");
+    const filas = document.querySelectorAll("#tablaMateriales tbody tr");
     filas.forEach(fila => {
       const mat = fila.querySelector("td:first-child input")?.value || fila.querySelector("td:first-child")?.innerText;
-      const precio = fila.querySelector(".price").value || "0";
-      const kilos = fila.querySelector(".kilograms").value || "0";
-      const totalFila = fila.querySelector(".total-price").value || "0";
+      const precio = fila.querySelector(".price")?.value || "0";
+      const kilos = fila.querySelector(".kilograms")?.value || "0";
+      const totalFila = fila.querySelector(".total-price")?.value || "0";
 
       if (parseFloat(kilos) > 0 && parseFloat(totalFila) > 0) {
         const m = mat.padEnd(10, ' ').slice(0, 10);
-        const p = precio.padStart(4, ' ').slice(0, 4);
-        const k = kilos.padStart(3, ' ').slice(0, 3);
-        const t = totalFila.padStart(5, ' ').slice(0, 5);
-        contenido += `${m}${p}${k} ${t}\n`;
+        const p = precio.padStart(5, ' ').slice(0, 5);
+        const k = kilos.padStart(5, ' ').slice(0, 5);
+        const t = totalFila.padStart(7, ' ').slice(0, 7);
+        contenido += `${m}${p}${k}${t}\n`;
       }
     });
 
-    contenido += "♻------------------------♻\n";
+    contenido += "----------------------------\n";
     contenido += `SUBTOTAL: $${subtotal}\n`;
     contenido += `DESC:     $${descuento}\n`;
-    contenido += `TOTAL:    $${total}\n`;
-    contenido += "QUE TENGAS BUEN DIA";
+    contenido += `TOTAL:    $${total}\n\n`;
+    contenido += "♻ QUE TENGAS BUEN DÍA ♻";
 
+    // ✅ Enviar a RAWBT
     const encoded = encodeURIComponent(contenido);
     window.location.href = `rawbt:${encoded}`;
   }
